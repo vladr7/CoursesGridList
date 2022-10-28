@@ -5,18 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -37,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    CoursesList(coursesList = DataSource.topics)
+                    TopicGrid(coursesList = DataSource.topics)
                 }
             }
         }
@@ -48,7 +41,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     CoursesGridListTheme {
-        CoursesList(coursesList = DataSource.topics)
+        TopicGrid(coursesList = DataSource.topics)
     }
 }
 
@@ -71,7 +64,7 @@ fun TopicCard(
                 Text(text = stringResource(id = topic.name))
 
                 Row() {
-                    Image(
+                    Icon(
                         painter = painterResource(id = R.drawable.grain), contentDescription = null,
                         modifier = Modifier.padding(end = 8.dp)
                     )
@@ -84,12 +77,17 @@ fun TopicCard(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CoursesList(
+fun TopicGrid(
     coursesList: List<Topic>,
     modifier: Modifier = Modifier
 ) {
 
-    LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.padding(8.dp)
+    ) {
         items(coursesList) { topic ->
             TopicCard(topic = topic)
         }
