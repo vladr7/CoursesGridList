@@ -3,11 +3,16 @@ package com.example.coursesgridlist
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -32,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    TopicCard(topic = DataSource.topics[0])
+                    CoursesList(coursesList = DataSource.topics)
                 }
             }
         }
@@ -43,7 +48,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     CoursesGridListTheme {
-        TopicCard(topic = DataSource.topics[0])
+        CoursesList(coursesList = DataSource.topics)
     }
 }
 
@@ -73,6 +78,20 @@ fun TopicCard(
                     Text(text = topic.nrOfCourses.toString())
                 }
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun CoursesList(
+    coursesList: List<Topic>,
+    modifier: Modifier = Modifier
+) {
+
+    LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+        items(coursesList) { topic ->
+            TopicCard(topic = topic)
         }
     }
 }
